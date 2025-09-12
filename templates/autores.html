@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Autores{% endblock %}
+{% block content %}
+<h2>Autores (Estudiantes que publican noticias)</h2>
+<table>
+  <thead>
+    <tr><th>Carne</th><th>Nombres</th><th>Apellidos</th><th>Email</th></tr>
+  </thead>
+  <tbody>
+  {% for a in rows %}
+    <tr>
+      <td>{{ a.carne }}</td>
+      <td>{{ a.nombres }}</td>
+      <td>{{ a.apellidos }}</td>
+      <td>{{ a.email }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">Sin registros</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

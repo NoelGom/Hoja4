@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Sección Publicaciones</h1>
+<ul>
+  <li>Total Autores: <strong>{{ autores_count }}</strong></li>
+  <li>Total Autorizadores: <strong>{{ autorizadores_count }}</strong></li>
+  <li>Total Publicaciones: <strong>{{ publicaciones_count }}</strong></li>
+</ul>
+<p>Usá el menú para ver cada tabla.</p>
+{% endblock %}
