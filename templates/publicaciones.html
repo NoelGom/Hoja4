@@ -1,29 +1,33 @@
 {% extends "base.html" %}
 {% block title %}Publicaciones{% endblock %}
 {% block content %}
-<h2>Publicaciones</h2>
-<table>
-  <thead>
+<h2 class="mb-3">Publicaciones</h2>
+
+<form method="post" class="mb-4 card card-body shadow-sm">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Guardar publicación</button>
+</form>
+
+<table class="table table-striped table-hover">
+  <thead class="table-primary">
     <tr>
-      <th>Título</th>
-      <th>Autor</th>
-      <th>Autorizador</th>
-      <th>Estado</th>
-      <th>Creación</th>
+      <th>Título</th><th>Autor</th><th>Autorizador</th>
+      <th>Estado</th><th>Creación</th>
     </tr>
   </thead>
   <tbody>
-  {% for p in rows %}
-    <tr>
-      <td>{{ p.titulo }}</td>
-      <td>{{ p.autor.nombres }} {{ p.autor.apellidos }}</td>
-      <td>{{ p.autorizador.nombres }} {{ p.autorizador.apellidos }}</td>
-      <td>{{ p.get_estado_display }}</td>
-      <td>{{ p.fecha_creacion|date:"Y-m-d H:i" }}</td>
-    </tr>
-  {% empty %}
-    <tr><td colspan="5">Sin registros</td></tr>
-  {% endfor %}
+    {% for p in rows %}
+      <tr>
+        <td>{{ p.titulo }}</td>
+        <td>{{ p.autor.nombres }} {{ p.autor.apellidos }}</td>
+        <td>{{ p.autorizador.nombres }} {{ p.autorizador.apellidos }}</td>
+        <td>{{ p.estado }}</td>
+        <td>{{ p.fecha_creacion|date:"Y-m-d H:i" }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="text-center">Sin registros</td></tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}

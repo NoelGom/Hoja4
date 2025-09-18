@@ -29,3 +29,14 @@ class Publicacion(models.Model):
     estado = models.CharField(max_length=20, choices=ESTADOS, default='BORRADOR')
     class Meta: ordering = ['-fecha_creacion']
     def __str__(self): return f"{self.titulo} - {self.get_estado_display()}"
+
+  
+class Comentario(models.Model):
+    publicacion = models.ForeignKey('Publicacion', on_delete=models.CASCADE, related_name='comentarios')
+    estudiante  = models.CharField(max_length=150)  
+    texto       = models.TextField()
+    creado      = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.estudiante} → {self.publicacion.titulo}"
+
