@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Publicación{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-header d-flex justify-content-between">
+    <span>Detalle de publicación</span>
+    <a class="btn btn-sm btn-warning" href="{% url 'publicacion_editar' obj.pk %}">Editar</a>
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">Título</dt><dd class="col-sm-9">{{ obj.titulo }}</dd>
+      <dt class="col-sm-3">Contenido</dt><dd class="col-sm-9">{{ obj.contenido }}</dd>
+      <dt class="col-sm-3">Estado</dt><dd class="col-sm-9">{{ obj.estado }}</dd>
+      <dt class="col-sm-3">Autor</dt><dd class="col-sm-9">{{ obj.autor.nombres }} {{ obj.autor.apellidos }}</dd>
+      <dt class="col-sm-3">Autorizador</dt><dd class="col-sm-9">{{ obj.autorizador.nombres }} {{ obj.autorizador.apellidos }}</dd>
+      <dt class="col-sm-3">Creación</dt><dd class="col-sm-9">{{ obj.fecha_creacion|date:"Y-m-d H:i" }}</dd>
+    </dl>
+  </div>
+  <div class="card-footer bg-white">
+    <a href="{% url 'publicaciones_lista' %}" class="btn btn-outline-secondary">Volver</a>
+  </div>
+</div>
+{% endblock %}

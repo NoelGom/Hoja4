@@ -1,74 +1,109 @@
-# publicaciones/views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.http import HttpResponse
 from .models import Autor, Autorizador, Publicacion
+from .forms import AutorForm, AutorizadorForm, PublicacionForm
 
-# Si tienes forms.py, importa los formularios:
-try:
-    from .forms import AutorForm, AutorizadorForm, PublicacionForm
-except Exception:
-    # Fallback mínimo por si aún no creaste forms.py
-    from django import forms
-    class AutorForm(forms.ModelForm):
-        class Meta:
-            model = Autor
-            fields = ["carne", "nombres", "apellidos", "email"]
-    class AutorizadorForm(forms.ModelForm):
-        class Meta:
-            model = Autorizador
-            fields = ["carne", "nombres", "apellidos", "email"]
-    class PublicacionForm(forms.ModelForm):
-        class Meta:
-            model = Publicacion
-            fields = ["titulo", "contenido", "estado", "autor", "autorizador"]
-
-# ---------- VISTAS ----------
-
+# ===================== Dashboard =====================
 def dashboard(request):
     ctx = {
         'autores_count': Autor.objects.count(),
         'autorizadores_count': Autorizador.objects.count(),
         'publicaciones_count': Publicacion.objects.count(),
     }
-    return render(request, 'dashboard.html', ctx)
+    return render(request, 'publicaciones/dashboard.html', ctx)
 
-def lista_autores(request):
-    if request.method == "POST":
+# ===================== AUTORES =====================
+def autores_lista(request):
+    rows = Autor.objects.all().order_by('id')
+    return render(request, 'publicaciones/autores.html', {'rows': rows})
+
+def autor_detalle(request, pk):
+    obj = get_object_or_404(Autor, pk=pk)
+    return render(request, 'publicaciones/autor_detail.html', {'obj': obj})
+
+def autor_nuevo(request):
+    if request.method == 'POST':
         form = AutorForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Autor creado.")
-            return redirect('pub_autores')
+            messages.success(request, 'Autor creado correctamente.')
+            return redirect('autores_lista')
     else:
         form = AutorForm()
-    rows = Autor.objects.order_by('apellidos', 'nombres')
-    return render(request, 'autores.html', {'form': form, 'rows': rows})
+    return render(request, 'publicaciones/autor_form.html', {'form': form, 'is_edit': False})
 
-def lista_autorizadores(request):
-    if request.method == "POST":
+def autor_editar(request, pk):
+    obj = get_object_or_404(Autor, pk=pk)
+    if request.method == 'POST':
+        form = AutorForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Autor actualizado correctamente.')
+            return redirect('autor_detalle', pk=obj.pk)
+    else:
+        form = AutorForm(instance=obj)
+    return render(request, 'publicaciones/autor_form.html', {'form': form, 'is_edit': True, 'obj': obj})
+
+# ===================== AUTORIZADORES =====================
+def autorizadores_lista(request):
+    rows = Autorizador.objects.all().order_by('id')
+    return render(request, 'publicaciones/autorizadores.html', {'rows': rows})
+
+def autorizador_detalle(request, pk):
+    obj = get_object_or_404(Autorizador, pk=pk)
+    return render(request, 'publicaciones/autorizador_detail.html', {'obj': obj})
+
+def autorizador_nuevo(request):
+    if request.method == 'POST':
         form = AutorizadorForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Autorizador creado.")
-            return redirect('pub_autorizadores')
+            messages.success(request, 'Autorizador creado correctamente.')
+            return redirect('autorizadores_lista')
     else:
         form = AutorizadorForm()
-    rows = Autorizador.objects.order_by('apellidos', 'nombres')
-    return render(request, 'autorizadores.html', {'form': form, 'rows': rows})
+    return render(request, 'publicaciones/autorizador_form.html', {'form': form, 'is_edit': False})
 
-def lista_publicaciones(request):
-    if request.method == "POST":
+def autorizador_editar(request, pk):
+    obj = get_object_or_404(Autorizador, pk=pk)
+    if request.method == 'POST':
+        form = AutorizadorForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Autorizador actualizado correctamente.')
+            return redirect('autorizador_detalle', pk=obj.pk)
+    else:
+        form = AutorizadorForm(instance=obj)
+    return render(request, 'publicaciones/autorizador_form.html', {'form': form, 'is_edit': True, 'obj': obj})
+
+# ===================== PUBLICACIONES =====================
+def publicaciones_lista(request):
+    rows = Publicacion.objects.select_related('autor', 'autorizador').all().order_by('-id')
+    return render(request, 'publicaciones/publicaciones.html', {'rows': rows})
+
+def publicacion_detalle(request, pk):
+    obj = get_object_or_404(Publicacion, pk=pk)
+    return render(request, 'publicaciones/publicacion_detail.html', {'obj': obj})
+
+def publicacion_nueva(request):
+    if request.method == 'POST':
         form = PublicacionForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Publicación creada.")
-            return redirect('pub_listado')
+            messages.success(request, 'Publicación creada correctamente.')
+            return redirect('publicaciones_lista')
     else:
         form = PublicacionForm()
-    rows = (
-        Publicacion.objects
-        .select_related('autor', 'autorizador')
-        .order_by('-fecha_creacion')
-    )
-    return render(request, 'publicaciones.html', {'form': form, 'rows': rows})
+    return render(request, 'publicaciones/publicacion_form.html', {'form': form, 'is_edit': False})
+
+def publicacion_editar(request, pk):
+    obj = get_object_or_404(Publicacion, pk=pk)
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Publicación actualizada correctamente.')
+            return redirect('publicacion_detalle', pk=obj.pk)
+    else:
+        form = PublicacionForm(instance=obj)
+    return render(request, 'publicaciones/publicacion_form.html', {'form': form, 'is_edit': True, 'obj': obj})

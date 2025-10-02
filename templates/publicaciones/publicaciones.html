@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Publicaciones{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h2 class="mb-0">Publicaciones</h2>
+  <a class="btn btn-warning" href="{% url 'publicacion_nueva' %}">Nueva publicación</a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Autorizador</th>
+          <th>Estado</th>
+          <th>Creación</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for obj in rows %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ obj.titulo }}</td>
+            <td>{{ obj.autor.nombres }} {{ obj.autor.apellidos }}</td>
+            <td>{{ obj.autorizador.nombres }} {{ obj.autorizador.apellidos }}</td>
+            <td>{{ obj.estado }}</td>
+            <td>{{ obj.fecha_creacion|date:"Y-m-d H:i" }}</td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-secondary" href="{% url 'publicacion_detalle' obj.pk %}">Ver</a>
+              <a class="btn btn-sm btn-warning" href="{% url 'publicacion_editar' obj.pk %}">Editar</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="text-center text-muted">Sin registros</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,29 +1,36 @@
-# publicaciones/forms.py
 from django import forms
 from .models import Autor, Autorizador, Publicacion
 
-class BootstrapModelForm(forms.ModelForm):
-    """Aplica .form-control a todos los campos automáticamente."""
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for f in self.fields.values():
-            css = f.widget.attrs.get('class', '')
-            f.widget.attrs['class'] = (css + ' form-control').strip()
-
-class AutorForm(BootstrapModelForm):
+class AutorForm(forms.ModelForm):
     class Meta:
         model = Autor
-        fields = ["carne", "nombres", "apellidos", "email"]
+        fields = ['carne', 'nombres', 'apellidos', 'email']
+        widgets = {
+            'carne': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombres': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellidos': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
 
-class AutorizadorForm(BootstrapModelForm):
+class AutorizadorForm(forms.ModelForm):
     class Meta:
         model = Autorizador
-        fields = ["carne", "nombres", "apellidos", "email"]
+        fields = ['carne', 'nombres', 'apellidos', 'email']
+        widgets = {
+            'carne': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombres': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellidos': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
 
-class PublicacionForm(BootstrapModelForm):
+class PublicacionForm(forms.ModelForm):
     class Meta:
         model = Publicacion
-        fields = ["titulo", "contenido", "estado", "autor", "autorizador"]
+        fields = ['titulo', 'contenido', 'estado', 'autor', 'autorizador']
         widgets = {
-            "contenido": forms.Textarea(attrs={"rows": 3}),
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'contenido': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'estado': forms.Select(attrs={'class': 'form-select'}),
+            'autor': forms.Select(attrs={'class': 'form-select'}),
+            'autorizador': forms.Select(attrs={'class': 'form-select'}),
         }
