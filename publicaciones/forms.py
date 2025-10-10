@@ -1,5 +1,5 @@
 from django import forms
-from .models import Autor, Autorizador, Publicacion
+from .models import Autor, Autorizador, Publicacion, Comentario
 
 class AutorForm(forms.ModelForm):
     class Meta:
@@ -29,8 +29,16 @@ class PublicacionForm(forms.ModelForm):
         fields = ['titulo', 'contenido', 'estado', 'autor', 'autorizador']
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
-            'contenido': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'contenido': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'estado': forms.Select(attrs={'class': 'form-select'}),
             'autor': forms.Select(attrs={'class': 'form-select'}),
             'autorizador': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['contenido']
+        widgets = {
+            'contenido': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
         }

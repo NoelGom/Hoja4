@@ -8,14 +8,29 @@
   </head>
   <body class="bg-light">
 
-    
+    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
       <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">Revista UMG</a>
+
         <div class="navbar-nav">
           <a class="nav-link" href="{% url 'autores_lista' %}">Autores</a>
           <a class="nav-link" href="{% url 'autorizadores_lista' %}">Autorizadores</a>
           <a class="nav-link" href="{% url 'publicaciones_lista' %}">Publicaciones</a>
+        </div>
+
+        <!-- Sección de autenticación -->
+        <div class="ms-auto d-flex align-items-center gap-2">
+          {% if user.is_authenticated %}
+            <span class="navbar-text">Hola, {{ user.username }}</span>
+            <form action="{% url 'logout' %}" method="post" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-light">Salir</button>
+            </form>
+          {% else %}
+            <a class="btn btn-sm btn-outline-light" href="{% url 'login' %}">Entrar</a>
+            <a class="btn btn-sm btn-warning" href="{% url 'registro' %}">Registro</a>
+          {% endif %}
         </div>
       </div>
     </nav>
@@ -29,6 +44,7 @@
           </div>
         {% endfor %}
       {% endif %}
+
       {% block content %}{% endblock %}
     </div>
 

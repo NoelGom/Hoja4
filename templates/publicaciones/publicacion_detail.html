@@ -2,7 +2,7 @@
 {% block title %}Publicación{% endblock %}
 
 {% block content %}
-<div class="card shadow-sm">
+<div class="card shadow-sm mb-4">
   <div class="card-header d-flex justify-content-between">
     <span>Detalle de publicación</span>
     <a class="btn btn-sm btn-warning" href="{% url 'publicacion_editar' obj.pk %}">Editar</a>
@@ -21,4 +21,31 @@
     <a href="{% url 'publicaciones_lista' %}" class="btn btn-outline-secondary">Volver</a>
   </div>
 </div>
+
+<h5 class="mb-3">Comentarios</h5>
+{% for c in comentarios %}
+  <div class="border rounded p-2 mb-2 bg-light">
+    <strong>{{ c.usuario.username }}</strong>
+    <small class="text-muted">· {{ c.fecha|date:"Y-m-d H:i" }}</small>
+    <p class="mb-0">{{ c.contenido }}</p>
+  </div>
+{% empty %}
+  <p class="text-muted">No hay comentarios aún.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<div class="card shadow-sm mt-3">
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Comentar</button>
+    </form>
+  </div>
+</div>
+{% else %}
+<p class="text-muted mt-3">
+  <a href="{% url 'login' %}">Inicia sesión</a> para comentar.
+</p>
+{% endif %}
 {% endblock %}
