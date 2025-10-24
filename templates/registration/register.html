@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h5 class="mb-0">Registro</h5>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="mb-3">
+            <label class="form-label">Nombre de usuario</label>
+            {{ form.username.errors }}
+            {{ form.username|add_class:"form-control" }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            {{ form.password1.errors }}
+            {{ form.password1|add_class:"form-control" }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Confirmación de contraseña</label>
+            {{ form.password2.errors }}
+            {{ form.password2|add_class:"form-control" }}
+          </div>
+
+          <button type="submit" class="btn btn-primary">Crear cuenta</button>
+        </form>
+
+        <div class="mt-3">
+          <a href="{% url 'login' %}">Ya tengo cuenta</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

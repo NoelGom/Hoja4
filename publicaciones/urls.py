@@ -19,7 +19,10 @@ urlpatterns = [
 
     # Publicaciones
     path('publicaciones/', views.publicaciones_lista, name='publicaciones_lista'),
-    path('publicaciones/nuevo/', views.publicacion_nueva, name='publicacion_nueva'),
+    path('publicaciones/nueva/', views.publicacion_nueva, name='publicacion_nueva'),
     path('publicaciones/<int:pk>/', views.publicacion_detalle, name='publicacion_detalle'),
     path('publicaciones/<int:pk>/editar/', views.publicacion_editar, name='publicacion_editar'),
+
+    # Registro 
+    path('accounts/registro/', views.registro, name='registro'),
 ]
