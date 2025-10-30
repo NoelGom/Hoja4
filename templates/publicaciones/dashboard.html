@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Autores</h5>
+        <p class="card-text fs-3">{{ autores_count }}</p>
+        <a href="{% url 'publicaciones:autores_lista' %}" class="btn btn-primary btn-sm">Ver</a>
+        <a href="{% url 'publicaciones:autor_nuevo' %}" class="btn btn-outline-primary btn-sm">Nuevo</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Autorizadores</h5>
+        <p class="card-text fs-3">{{ autorizadores_count }}</p>
+        <a href="{% url 'publicaciones:autorizadores_lista' %}" class="btn btn-success btn-sm">Ver</a>
+        <a href="{% url 'publicaciones:autorizador_nuevo' %}" class="btn btn-outline-success btn-sm">Nuevo</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Publicaciones</h5>
+        <p class="card-text fs-3">{{ publicaciones_count }}</p>
+        <a href="{% url 'publicaciones:publicaciones_lista' %}" class="btn btn-warning btn-sm">Ver</a>
+        <a href="{% url 'publicaciones:publicacion_nueva' %}" class="btn btn-outline-warning btn-sm">Nueva</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

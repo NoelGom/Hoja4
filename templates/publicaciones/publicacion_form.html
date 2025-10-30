@@ -1,19 +1,18 @@
 {% extends "base.html" %}
-{% block title %}{{ is_edit|yesno:"Editar publicación,Nueva publicación" }}{% endblock %}
-
+{% block title %}{% if is_edit %}Editar publicación{% else %}Nueva publicación{% endif %}{% endblock %}
 {% block content %}
-<h2 class="mb-3">{{ is_edit|yesno:"Editar publicación,Nueva publicación" }}</h2>
+<h2 class="mb-3">{% if is_edit %}Editar publicación{% else %}Nueva publicación{% endif %}</h2>
 
-<div class="card shadow-sm">
+<form method="post" class="card">
   <div class="card-body">
-    <form method="post" novalidate>
-      {% csrf_token %}
+    {% csrf_token %}
+    <div class="row g-3">
       {{ form.as_p }}
-      <div class="mt-3">
-        <button class="btn btn-warning" type="submit">Guardar</button>
-        <a class="btn btn-outline-secondary" href="{% url 'publicaciones_lista' %}">Cancelar</a>
-      </div>
-    </form>
+    </div>
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-warning" type="submit">Guardar</button>
+      <a class="btn btn-outline-secondary" href="{% url 'publicaciones:publicaciones_lista' %}">Cancelar</a>
+    </div>
   </div>
-</div>
+</form>
 {% endblock %}

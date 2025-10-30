@@ -1,44 +1,20 @@
 from django import forms
-from .models import Autor, Autorizador, Publicacion, Comentario
+from .models import Autor, Autorizador, Publicacion
 
 class AutorForm(forms.ModelForm):
     class Meta:
         model = Autor
-        fields = ['carne', 'nombres', 'apellidos', 'email']
-        widgets = {
-            'carne': forms.TextInput(attrs={'class': 'form-control'}),
-            'nombres': forms.TextInput(attrs={'class': 'form-control'}),
-            'apellidos': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-        }
+        fields = ["carne", "nombres", "apellidos"]
 
 class AutorizadorForm(forms.ModelForm):
     class Meta:
         model = Autorizador
-        fields = ['carne', 'nombres', 'apellidos', 'email']
-        widgets = {
-            'carne': forms.TextInput(attrs={'class': 'form-control'}),
-            'nombres': forms.TextInput(attrs={'class': 'form-control'}),
-            'apellidos': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-        }
+        fields = ["carne", "nombres", "apellidos"]
 
 class PublicacionForm(forms.ModelForm):
     class Meta:
         model = Publicacion
-        fields = ['titulo', 'contenido', 'estado', 'autor', 'autorizador']
+        fields = ["titulo", "contenido", "autor", "autorizador", "estado"]
         widgets = {
-            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
-            'contenido': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'estado': forms.Select(attrs={'class': 'form-select'}),
-            'autor': forms.Select(attrs={'class': 'form-select'}),
-            'autorizador': forms.Select(attrs={'class': 'form-select'}),
-        }
-
-class ComentarioForm(forms.ModelForm):
-    class Meta:
-        model = Comentario
-        fields = ['contenido']
-        widgets = {
-            'contenido': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            "contenido": forms.Textarea(attrs={"rows": 6}),
         }

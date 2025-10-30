@@ -4,9 +4,9 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # App principal (protegida con login en sus vistas)
-    path('', include('publicaciones.urls')),
+    # App principal con namespace
+    path('', include(('publicaciones.urls', 'publicaciones'), namespace='publicaciones')),
 
-    # Autenticación (login, logout, password reset…)
+    # Auth de Django (login/logout/password reset …)
     path('accounts/', include('django.contrib.auth.urls')),
 ]
